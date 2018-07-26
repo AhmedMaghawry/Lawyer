@@ -3,6 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Fragments.DatesFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragments.DatesFragment"
+    android:background="@color/bggood">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp"
+            android:id="@+id/list"/>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_plus"
+        android:layout_gravity="bottom|right"
+        app:backgroundTint="@color/radicalred"
+        android:layout_margin="10dp"
+        android:tint="@color/white"
+        android:id="@+id/add"/>
 
 </FrameLayout>

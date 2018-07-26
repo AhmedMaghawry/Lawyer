@@ -17,58 +17,17 @@ public class Client implements Serializable {
     String cases;
     String username;
     String password;
-    private ArrayList<Case> casesArray = new ArrayList<>();
+    String apointments;
 
     public Client() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Client(String username, String password, String cases) {
+    public Client(String username, String password, String cases, String apointments) {
         this.username = username;
         this.password = password;
         this.cases = cases;
-    }
-
-    private void getCases() {
-        String[] ca = cases.split("-");
-        for (String x : ca) {
-            Case caseIt = null;
-            try {
-                caseIt = getCaseFromFirebase(x);
-            } catch (Exception i) {
-                //Toast.makeText(,"رقم القضية غير موجودة", Toast.LENGTH_LONG).show();
-                Log.i("dodo", "رقم القضية غير موجودة");
-            }
-            if (caseIt != null)
-                casesArray.add(caseIt);
-        }
-    }
-
-
-    private Case getCaseFromFirebase(String x) {
-        FirebaseDatabase database;
-        DatabaseReference myRef;
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Cases");
-        DatabaseReference userReq = myRef.child(x);
-        // Read from the database
-        userReq.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Case ca = dataSnapshot.getValue(Case.class);
-                casesArray.add(ca);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.w("dodo", "Failed to read value.", error.toException());
-            }
-        });
-        return null;
-    }
-
-    public ArrayList<Case> getCasesArray() {
-        return casesArray;
+        this.apointments = apointments;
     }
 
     public String getUsername() {
@@ -77,5 +36,9 @@ public class Client implements Serializable {
 
     public String getCasey() {
         return cases;
+    }
+
+    public String getApointments() {
+        return apointments;
     }
 }

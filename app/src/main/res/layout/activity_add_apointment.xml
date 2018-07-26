@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccentTrans"
-    tools:context=".View.AddClientActivity">
+    android:background="@color/stongblue"
+    tools:context=".View.AddApointmentActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="إضافة موكل جديد"
+        android:text="إضافة ميعاد جديد"
         android:layout_gravity="center"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -20,33 +20,34 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_user"
-        android:layout_marginBottom="10dp"/>
+        android:src="@drawable/ic_datee"
+        android:tint="@color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_gravity="right"
+        android:layout_marginTop="20dp"
         android:weightSum="3">
         <EditText
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:hint="ادخل اسم المستخدم ..."
+            android:hint="تاريخ الميعاد ..."
+            android:inputType="date"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:id="@+id/username"/>
+            android:id="@+id/date"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="اسم المستخدم : "
+            android:text="تاريخ الميعاد : "
             android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp" />
@@ -65,16 +66,16 @@
             android:layout_weight="2"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:hint="... ادخل الرقم السري"
+            android:hint="ادخل رقم الميعاد ..."
             android:textColor="@color/white"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:textColorHint="@color/white"
-            android:id="@+id/password"/>
+            android:id="@+id/num"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="الرقم السري : "
+            android:text="رقم الميعاد : "
             android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp" />
@@ -92,21 +93,19 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:hint="ادخل رقم القضية ..."
-            android:inputType="number"
+            android:hint="وصف الميعاد ..."
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:id="@+id/casey"/>
+            android:id="@+id/desc"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="رقم القضية : "
+            android:text="وصف الميعاد : "
             android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -119,16 +118,41 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:hint="ادخل رقم الموعد ..."
-            android:inputType="number"
+            android:hint="مكان الميعاد ..."
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:id="@+id/date"/>
+            android:id="@+id/loc"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="رقم الموعد : "
+            android:text="مكان الميعاد : "
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="right"
+        android:weightSum="3">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:hint="وقت الميعاد ..."
+            android:inputType="datetime"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:id="@+id/hour"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="وقت الميعاد : "
             android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp" />

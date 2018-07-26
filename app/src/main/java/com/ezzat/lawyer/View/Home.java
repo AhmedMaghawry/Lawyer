@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.ezzat.lawyer.Model.Client;
 import com.ezzat.lawyer.Model.User;
 import com.ezzat.lawyer.R;
 import com.ezzat.lawyer.View.Fragments.CasesFragment;
@@ -17,6 +18,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 public class Home extends AppCompatActivity {
 
     private User user;
+    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         user = (User) getIntent().getSerializableExtra("user");
         if (user.user) {
+            client = (Client) getIntent().getSerializableExtra("client");
             defaultUserViews();
         } else {
             managerViews();
@@ -32,6 +35,10 @@ public class Home extends AppCompatActivity {
 
     public User getUser() {
         return user;
+    }
+
+    public Client getClient() {
+        return client;
     }
 
     private void defaultUserViews() {

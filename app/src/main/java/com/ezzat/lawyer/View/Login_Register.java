@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ezzat.lawyer.Model.Client;
 import com.ezzat.lawyer.Model.User;
 import com.ezzat.lawyer.R;
 import com.google.firebase.database.DataSnapshot;
@@ -55,8 +56,9 @@ public class Login_Register extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         User current = loadUserItExsist();
+        Client client = loadClientItExsist();
         if (current != null)
-            goToHome(current);
+            goToHome(current, client);
     }
 
     public static String hashPassword(String pass) {
@@ -67,9 +69,10 @@ public class Login_Register extends AppCompatActivity {
         return String.valueOf(hash);
     }
 
-    private void goToHome(User user) {
+    private void goToHome(User user, Client client) {
         Intent intent = new Intent(Login_Register.this, Home.class);
         intent.putExtra("user", user);
+        intent.putExtra("client", client);
         startActivity(intent);
     }
 
@@ -216,14 +219,23 @@ public class Login_Register extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "خطأ في التسجل , حاول مره اخرى", Toast.LENGTH_LONG).show();
                             return;
                         }
-                        Log.i("dodo", value.user+"");
-                        Log.i("dodo", isUser+"");
                         if (value.user != isUser) {
                             Toast.makeText(getApplicationContext(), "خطأ في التسجل , حاول مره اخرى", Toast.LENGTH_LONG).show();
                             return;
                         }
-                        saveItToPreference(value);
-                        goToHome(value);
+                        database.getReference("Clients").child(value.username).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Client cli = dataSnapshot.getValue(Client.class);
+                                saveItToPreference(value, cli);
+                                goToHome(value,cli);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -248,12 +260,22 @@ public class Login_Register extends AppCompatActivity {
         return it;
     }
 
-        public void saveItToPreference(User user){
+    public Client loadClientItExsist() {
+        SharedPreferences pref = getApplication().getSharedPreferences("user", 0);
+        Gson gson = new Gson();
+        String json = pref.getString("cl", "");
+        Client it = gson.fromJson(json, Client.class);
+        return it;
+    }
+
+        public void saveItToPreference(User user, Client client){
             SharedPreferences pref = getSharedPreferences("user", 0);
             Gson gson = new Gson();
             SharedPreferences.Editor editor = pref.edit();
             String json = gson.toJson(user);
+            String json2 = gson.toJson(client);
             editor.putString("now", json);
+            editor.putString("cl", json2);
             editor.commit(); // commit changes
         }
     }

@@ -9,14 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.ezzat.lawyer.Controller.MyListAdapter;
+import com.ezzat.lawyer.Controller.ClientListAdapter;
 import com.ezzat.lawyer.Model.Client;
-import com.ezzat.lawyer.Model.User;
 import com.ezzat.lawyer.R;
 import com.ezzat.lawyer.View.AddClientActivity;
+import com.ezzat.lawyer.View.CasePageActivity;
+import com.ezzat.lawyer.View.ClientPageActivity;
 import com.ezzat.lawyer.View.Home;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +43,16 @@ public class ClientsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_clients, container, false);
+        list = view.findViewById(R.id.list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), ClientPageActivity.class);
+                intent.putExtra("user", ((Home)getActivity()).getUser());
+                intent.putExtra("client", clients.get(position));
+                startActivity(intent);
+            }
+        });
         new loadClients().execute();
         floatingActionButton = view.findViewById(R.id.add);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -70,10 +81,10 @@ public class ClientsFragment extends Fragment {
                     clients = new ArrayList<>();
                     for (DataSnapshot x : dataSnapshot.getChildren()) {
                         Client c = x.getValue(Client.class);
+                        Log.i("dodo", "Readd " + c.getCasey());
                         clients.add(c);
                     }
-                    MyListAdapter adapter = new MyListAdapter(getActivity(), getIds(clients), getCases(clients));
-                    list = view.findViewById(R.id.list);
+                    ClientListAdapter adapter = new ClientListAdapter(getActivity(), getIds(clients), getCases(clients));
                     list.setAdapter(adapter);
                 }
 

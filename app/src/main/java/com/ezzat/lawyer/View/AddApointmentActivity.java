@@ -11,7 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.ezzat.lawyer.Model.Client;
+import com.ezzat.lawyer.Model.Apointment;
+import com.ezzat.lawyer.Model.Case;
 import com.ezzat.lawyer.Model.User;
 import com.ezzat.lawyer.R;
 import com.google.firebase.database.DataSnapshot;
@@ -20,13 +21,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class AddClientActivity extends AppCompatActivity {
+public class AddApointmentActivity extends AppCompatActivity {
 
     private User user;
-    private Client client;
-    private EditText username;
-    private EditText password;
-    private EditText casee;
+    private Apointment apointment;
+    private EditText hourET;
+    private EditText numET;
+    private EditText descET;
+    private EditText locET;
     private EditText dateET;
     private ImageButton confirm;
     private ImageButton reject;
@@ -35,7 +37,7 @@ public class AddClientActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_client);
+        setContentView(R.layout.activity_add_apointment);
         user = (User) getIntent().getSerializableExtra("user");
         setupViews();
         setupActions();
@@ -58,57 +60,59 @@ public class AddClientActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
-        casee = findViewById(R.id.casey);
+        hourET = findViewById(R.id.hour);
+        numET = findViewById(R.id.num);
+        descET = findViewById(R.id.desc);
+        locET = findViewById(R.id.loc);
         dateET = findViewById(R.id.date);
         confirm = findViewById(R.id.tick);
         reject = findViewById(R.id.cross);
     }
 
     private void confirm() {
-        new addToFirebase().execute();
+        new addApointment().execute();
     }
 
     private void goBack() {
-        Intent intent = new Intent(AddClientActivity.this, Home.class);
+        Intent intent = new Intent(AddApointmentActivity.this, Home.class);
         intent.putExtra("user", user);
         startActivity(intent);
     }
 
-    class addToFirebase extends AsyncTask<String, String, String> {
+    class addApointment extends AsyncTask<String, String, String> {
 
         AlertDialog alertDialog;
-        String usernameVal;
-        String passwordVal;
-        String cases;
+        String num;
+        String hour;
+        String loc;
+        String desc;
         String date;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            alertDialog = new AlertDialog.Builder(AddClientActivity.this).create();
+            alertDialog = new AlertDialog.Builder(AddApointmentActivity.this).create();
             alertDialog.setTitle("Error");
             alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-            pDialog = new ProgressDialog(AddClientActivity.this);
-            pDialog.setMessage("تحميل التسجيل...");
+            pDialog = new ProgressDialog(AddApointmentActivity.this);
+            pDialog.setMessage("تحميل الميعاد...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
-            pDialog.show();
+            //pDialog.show();
         }
 
         @Override
         protected String doInBackground(String... strings) {
-            usernameVal = username.getText().toString();
-            passwordVal = password.getText().toString();
-            cases = casee.getText().toString();
+            num = numET.getText().toString();
+            hour = hourET.getText().toString();
+            loc = locET.getText().toString();
+            desc = descET.getText().toString();
             date = dateET.getText().toString();
-            client = new Client(usernameVal, Login_Register.hashPassword(passwordVal), cases, date);
-            final User user = new User(usernameVal, Login_Register.hashPassword(passwordVal), true);
+            apointment = new Apointment(num, loc, desc, date, hour);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("Clients");
+            DatabaseReference myRef = database.getReference("Apointments");
             myRef.keepSynced(true);
-            final DatabaseReference ch = myRef.child(username.getText().toString());
+            final DatabaseReference ch = myRef.child(num);
             ch.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -119,31 +123,13 @@ public class AddClientActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        ch.setValue(client);
+                        ch.setValue(apointment);
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(getApplicationContext(),"تم التسجيل", Toast.LENGTH_LONG).show();
                             }
                         });
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            DatabaseReference myRefUser = database.getReference("Users");
-            myRefUser.keepSynced(true);
-            final DatabaseReference us = myRefUser.child(username.getText().toString());
-            us.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.hasChildren()) {
-
-                    } else {
                         goBack();
-                        us.setValue(user);
                     }
                 }
 
@@ -156,7 +142,7 @@ public class AddClientActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String file_url) {
-            pDialog.dismiss();
+            //pDialog.dismiss();
         }
     }
 }

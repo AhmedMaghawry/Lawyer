@@ -20,5 +20,13 @@
   <color name="trans">#00FFFFFF</color>
   <color name="bggood">#55c1c6c6</color>
   <color name="green">#3fb951</color>
+  <color name="colorIndivateTab">#FFFFFF</color>
+  <color name="transparent">#00000000</color>
+  <color name="colorCardView">#f7f7f7</color>
+  <color name="grey_200">#EEEEEE</color>
+  <color name="grey_500">#a4a4a4</color>
+  <color name="grey_100">#F5F5F5</color>
+  <color name="grey_800">#212121</color>
+
 </resources>
 

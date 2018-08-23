@@ -22,6 +22,10 @@ import android.widget.Toast;
 import com.ezzat.lawyer.Model.Client;
 import com.ezzat.lawyer.Model.User;
 import com.ezzat.lawyer.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,11 +46,17 @@ public class Login_Register extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private ProgressDialog pDialog;
+    private AdView mAdView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login__register);
+        MobileAds.initialize(this, "ca-app-pub-7974260876012872~8453391049");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         setupDesign();
         bindViews();
         setListeners();
@@ -215,7 +225,7 @@ public class Login_Register extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         value = dataSnapshot.getValue(User.class);
-                        if (!value.password.equals(password)) {
+                        if (value == null || password == null || !value.password.equals(password)) {
                             Toast.makeText(getApplicationContext(), "خطأ في التسجل , حاول مره اخرى", Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -233,7 +243,7 @@ public class Login_Register extends AppCompatActivity {
 
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
-
+                                FirebaseCrash.log("Faild To get Client for Login");
                             }
                         });
                     }
@@ -241,6 +251,7 @@ public class Login_Register extends AppCompatActivity {
                     @Override
                     public void onCancelled(DatabaseError error) {
                         Log.w("dodo", "Failed to read value.", error.toException());
+                        FirebaseCrash.log("Faild To get User for Login");
                         Toast.makeText(getApplicationContext(), "خطأ في التسجل , حاول مره اخرى", Toast.LENGTH_LONG).show();
                     }
                 });

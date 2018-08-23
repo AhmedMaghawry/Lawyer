@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.ezzat.lawyer.Model.User;
 import com.ezzat.lawyer.R;
+import com.ezzat.lawyer.View.ChatActivity;
 import com.ezzat.lawyer.View.Home;
 import com.ezzat.lawyer.View.Login_Register;
 
@@ -36,6 +37,15 @@ public class SettingFragment extends Fragment {
         msg = view.findViewById(R.id.msg);
         if (user.user)
             msg.setVisibility(View.VISIBLE);
+            msg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), ChatActivity.class);
+                    intent.putExtra("client", ((Home)getActivity()).getClient());
+                    intent.putExtra("admin", ((Home)getActivity()).getUser());
+                    startActivity(intent);
+                }
+            });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

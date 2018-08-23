@@ -5,4 +5,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7974260876012872/9891537744</string>
+    <string name="second_banar">ca-app-pub-7974260876012872/7385628056</string>
+    <string name="test_banar">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

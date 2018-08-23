@@ -10,6 +10,14 @@
   <color name="msugreen">#193441</color>
   <color name="stongblue">#24a7d2</color>
   <color name="black">#000000</color>
+  <color name="colorIndivateTab">#FFFFFF</color>
+  <color name="transparent">#00000000</color>
+  <color name="colorCardView">#f7f7f7</color>
+  <color name="grey_200">#EEEEEE</color>
+  <color name="grey_500">#a4a4a4</color>
+  <color name="grey_100">#F5F5F5</color>
+  <color name="grey_800">#212121</color>
+
   <color name="bggood">#55c1c6c6</color>
 </resources>
 
